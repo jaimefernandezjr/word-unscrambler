@@ -63,56 +63,56 @@ RM = /Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /Users/dajentorralba/CLionProjects/Client
+CMAKE_SOURCE_DIR = /Users/dajentorralba/CLionProjects/WordUnscramblerClient
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /Users/dajentorralba/CLionProjects/Client/cmake-build-debug
+CMAKE_BINARY_DIR = /Users/dajentorralba/CLionProjects/WordUnscramblerClient/cmake-build-debug
 
 # Include any dependencies generated for this target.
-include CMakeFiles/Client.dir/depend.make
+include CMakeFiles/WordUnscramblerClient.dir/depend.make
 
 # Include the progress variables for this target.
-include CMakeFiles/Client.dir/progress.make
+include CMakeFiles/WordUnscramblerClient.dir/progress.make
 
 # Include the compile flags for this target's objects.
-include CMakeFiles/Client.dir/flags.make
+include CMakeFiles/WordUnscramblerClient.dir/flags.make
 
-CMakeFiles/Client.dir/main.cpp.o: CMakeFiles/Client.dir/flags.make
-CMakeFiles/Client.dir/main.cpp.o: ../main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/dajentorralba/CLionProjects/Client/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/Client.dir/main.cpp.o"
-	/Library/Developer/CommandLineTools/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Client.dir/main.cpp.o -c /Users/dajentorralba/CLionProjects/Client/main.cpp
+CMakeFiles/WordUnscramblerClient.dir/main.cpp.o: CMakeFiles/WordUnscramblerClient.dir/flags.make
+CMakeFiles/WordUnscramblerClient.dir/main.cpp.o: ../main.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/dajentorralba/CLionProjects/WordUnscramblerClient/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/WordUnscramblerClient.dir/main.cpp.o"
+	/Library/Developer/CommandLineTools/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/WordUnscramblerClient.dir/main.cpp.o -c /Users/dajentorralba/CLionProjects/WordUnscramblerClient/main.cpp
 
-CMakeFiles/Client.dir/main.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Client.dir/main.cpp.i"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/dajentorralba/CLionProjects/Client/main.cpp > CMakeFiles/Client.dir/main.cpp.i
+CMakeFiles/WordUnscramblerClient.dir/main.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/WordUnscramblerClient.dir/main.cpp.i"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/dajentorralba/CLionProjects/WordUnscramblerClient/main.cpp > CMakeFiles/WordUnscramblerClient.dir/main.cpp.i
 
-CMakeFiles/Client.dir/main.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Client.dir/main.cpp.s"
-	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/dajentorralba/CLionProjects/Client/main.cpp -o CMakeFiles/Client.dir/main.cpp.s
+CMakeFiles/WordUnscramblerClient.dir/main.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/WordUnscramblerClient.dir/main.cpp.s"
+	/Library/Developer/CommandLineTools/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/dajentorralba/CLionProjects/WordUnscramblerClient/main.cpp -o CMakeFiles/WordUnscramblerClient.dir/main.cpp.s
 
-# Object files for target Client
+# Object files for target WordUnscramblerClient
 Client_OBJECTS = \
-"CMakeFiles/Client.dir/main.cpp.o"
+"CMakeFiles/WordUnscramblerClient.dir/main.cpp.o"
 
-# External object files for target Client
+# External object files for target WordUnscramblerClient
 Client_EXTERNAL_OBJECTS =
 
-Client: CMakeFiles/Client.dir/main.cpp.o
-Client: CMakeFiles/Client.dir/build.make
-Client: CMakeFiles/Client.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/dajentorralba/CLionProjects/Client/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable Client"
-	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/Client.dir/link.txt --verbose=$(VERBOSE)
+WordUnscramblerClient: CMakeFiles/WordUnscramblerClient.dir/main.cpp.o
+WordUnscramblerClient: CMakeFiles/WordUnscramblerClient.dir/build.make
+WordUnscramblerClient: CMakeFiles/WordUnscramblerClient.dir/link.txt
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/dajentorralba/CLionProjects/WordUnscramblerClient/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable WordUnscramblerClient"
+	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/WordUnscramblerClient.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
-CMakeFiles/Client.dir/build: Client
+CMakeFiles/WordUnscramblerClient.dir/build: WordUnscramblerClient
 
-.PHONY : CMakeFiles/Client.dir/build
+.PHONY : CMakeFiles/WordUnscramblerClient.dir/build
 
-CMakeFiles/Client.dir/clean:
-	$(CMAKE_COMMAND) -P CMakeFiles/Client.dir/cmake_clean.cmake
-.PHONY : CMakeFiles/Client.dir/clean
+CMakeFiles/WordUnscramblerClient.dir/clean:
+	$(CMAKE_COMMAND) -P CMakeFiles/WordUnscramblerClient.dir/cmake_clean.cmake
+.PHONY : CMakeFiles/WordUnscramblerClient.dir/clean
 
-CMakeFiles/Client.dir/depend:
-	cd /Users/dajentorralba/CLionProjects/Client/cmake-build-debug && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /Users/dajentorralba/CLionProjects/Client /Users/dajentorralba/CLionProjects/Client /Users/dajentorralba/CLionProjects/Client/cmake-build-debug /Users/dajentorralba/CLionProjects/Client/cmake-build-debug /Users/dajentorralba/CLionProjects/Client/cmake-build-debug/CMakeFiles/Client.dir/DependInfo.cmake --color=$(COLOR)
-.PHONY : CMakeFiles/Client.dir/depend
+CMakeFiles/WordUnscramblerClient.dir/depend:
+	cd /Users/dajentorralba/CLionProjects/WordUnscramblerClient/cmake-build-debug && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /Users/dajentorralba/CLionProjects/WordUnscramblerClient /Users/dajentorralba/CLionProjects/WordUnscramblerClient /Users/dajentorralba/CLionProjects/WordUnscramblerClient/cmake-build-debug /Users/dajentorralba/CLionProjects/WordUnscramblerClient/cmake-build-debug /Users/dajentorralba/CLionProjects/WordUnscramblerClient/cmake-build-debug/CMakeFiles/WordUnscramblerClient.dir/DependInfo.cmake --color=$(COLOR)
+.PHONY : CMakeFiles/WordUnscramblerClient.dir/depend
 

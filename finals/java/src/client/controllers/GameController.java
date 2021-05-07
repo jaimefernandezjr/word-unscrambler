@@ -1,4 +1,4 @@
-package client.controllers;
+package controllers;
 
 public class GameController {
 }

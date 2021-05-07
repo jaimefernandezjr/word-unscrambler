@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/Users/dajentorralba/CLionProjects/Client/main.cpp" "/Users/dajentorralba/CLionProjects/Client/cmake-build-debug/CMakeFiles/Client.dir/main.cpp.o"
+  "/Users/dajentorralba/CLionProjects/WordUnscramblerClient/main.cpp" "/Users/dajentorralba/CLionProjects/WordUnscramblerClient/cmake-build-debug/CMakeFiles/WordUnscramblerClient.dir/main.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "AppleClang")
 

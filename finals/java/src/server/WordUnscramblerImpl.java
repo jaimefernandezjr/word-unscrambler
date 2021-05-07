@@ -1,5 +1,3 @@
-package server;
-
 import server.res.FileRecord;
 
 import java.io.BufferedReader;
@@ -7,8 +5,9 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.*;
+import WordUnscramblerApp.WordUnscramblerPOA;
 
-public class CorbaImpl {
+public class WordUnscramblerImpl extends WordUnscramblerPOA {
     private boolean isRequestingShuffle = false;
     private String mysteryWord = "";
 

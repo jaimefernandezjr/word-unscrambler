@@ -6,8 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #5f0087;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.controllers.LoginController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #5f0087;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.LoginController">
    <children>
       <TextField layoutX="179.0" layoutY="234.0" prefHeight="32.0" prefWidth="243.0" promptText="Player's name" />
       <Button layoutX="261.0" layoutY="273.0" mnemonicParsing="false" style="-fx-background-color: #008000;" text="PLAY GAME" textFill="WHITE" />

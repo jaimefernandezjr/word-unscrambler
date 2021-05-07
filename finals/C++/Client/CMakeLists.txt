@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.17)
-project(Client)
+project(WordUnscramblerClient)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(Client main.cpp)
+add_executable(WordUnscramblerClient main.cpp)

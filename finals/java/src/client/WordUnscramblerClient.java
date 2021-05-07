@@ -1,18 +1,18 @@
-package client;
-
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import WordUnscramblerApp.WordUnscrambler;
+import WordUnscramblerApp.WordUnscramblerHelper;
 
 import org.omg.CosNaming.*;
 import org.omg.CosNaming.NamingContextPackage.*;
 import org.omg.CORBA.*;
 
-public class ClientExecutable extends Application {
+public class WordUnscramblerClient extends Application {
 
-    static Hello helloImpl;
+    public static WordUnscrambler wordUnscramblerImpl;
 
 
     @Override
@@ -21,10 +21,10 @@ public class ClientExecutable extends Application {
         primaryStage.setTitle("Hello World");
         primaryStage.setScene(new Scene(root, 300, 275));
         primaryStage.show();
+
     }
 
-
-    public static void main(String[] args) {
+    public static void main(String args[]) {
         try {
             // create and initialize the ORB
             ORB orb = ORB.init(args, null);
@@ -36,15 +36,18 @@ public class ClientExecutable extends Application {
             NamingContextExt ncRef = NamingContextExtHelper.narrow(objRef);
             // resolve the Object Reference in Naming
             String name = "CORBAgrp7";
-            helloImpl = HelloHelper.narrow(ncRef.resolve_str(name));
-            System.out.println(helloImpl.sayHello());
-            System.out.println("5 is " + (helloImpl.isEven(5) ? "even." :
-                    "odd."));
-            System.out.println("-10 is " + (helloImpl.isEven(-10) ?
-                    "even." : "odd."));
+            wordUnscramblerImpl = WordUnscramblerHelper.narrow(ncRef.resolve_str(name));
+
+//            //sample program
+//            System.out.println(wordUnscramblerImpl.);
+//            System.out.println("5 is " + (helloImpl.isEven(5) ? "even." :
+//                    "odd."));
+//            System.out.println("-10 is " + (helloImpl.isEven(-10) ?
+//                    "even." : "odd."));
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         launch(args);
     }
 }
