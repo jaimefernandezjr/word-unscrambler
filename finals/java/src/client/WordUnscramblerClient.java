@@ -6,12 +6,21 @@ import org.omg.CosNaming.NamingContextExtHelper;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
-public class WordUnscramblerClient{
+public class WordUnscramblerClient {
+    //TODO: gameWindow
+    //TODO: mainMenuWindow
 
     public static WordUnscrambler wordUnscrambler;
 
-    public void clientNetworkSetup(String[] args){
+    public static void main(String[] args) {
+        WordUnscramblerClient client = new WordUnscramblerClient();
+        client.clientNetworkSetup(args);
+    }
+
+    public void clientNetworkSetup(String[] args) {
         JFrame clientFrame = new JFrame("Client Corba Network Setup");
         clientFrame.setSize(400, 275);
         clientFrame.setResizable(false);
@@ -50,21 +59,19 @@ public class WordUnscramblerClient{
             String objectReference = objectReferenceField.getText().trim();
 
             String errorDiagnosis = checkIfInputsAreValid(rootNaming, objectReference);
-            if(!errorDiagnosis.equals("Okay")){
+            if (!errorDiagnosis.equals("Okay")) {
                 JOptionPane.showMessageDialog(clientFrame, errorDiagnosis);
             }
             try {
                 ORB orb = ORB.init(args, null);
                 org.omg.CORBA.Object objRef =
-                        orb.resolve_initial_references("NameService");
+                        orb.resolve_initial_references(rootNaming);
                 NamingContextExt ncRef = NamingContextExtHelper.narrow(objRef);
-                String name = "Hello";
+                String name = objectReference;
                 wordUnscrambler = WordUnscramblerHelper.narrow(ncRef.resolve_str(name));
-//                System.out.println(wordUnscrambler);
-//                System.out.println("5 is " + (helloImpl.isEven(5) ? "even." :
-//                        "odd."));
-//                System.out.println("-10 is " + (helloImpl.isEven(-10) ?
-//                        "even." : "odd."));
+
+                loginWindow();
+                clientFrame.setState(JFrame.ICONIFIED);
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
@@ -73,15 +80,94 @@ public class WordUnscramblerClient{
         clientFrame.setVisible(true);
     }
 
-    public String checkIfInputsAreValid(String rootNaming, String objectReference){
-        if(rootNaming.equals("") || objectReference.equals("")){
+    public String checkIfInputsAreValid(String rootNaming, String objectReference) {
+        if (rootNaming.equals("") || objectReference.equals("")) {
             return "The fields cannot be empty";
         }
         return "Okay";
     }
 
-    public static void main(String[] args) {
-        WordUnscramblerClient client = new WordUnscramblerClient();
-        client.clientNetworkSetup(args);
+    public void loginWindow() {
+        JFrame loginFrame = new JFrame("Word Unscrambler");
+        loginFrame.setSize(600, 400);
+        loginFrame.setResizable(false);
+        loginFrame.setLocationRelativeTo(null);
+        loginFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(null);
+        mainPanel.setBackground(Color.BLUE.darker().darker());
+        loginFrame.add(mainPanel);
+
+        JLabel wordLabel = new JLabel("Word");
+        wordLabel.setFont(new Font("Arial", Font.BOLD, 60));
+        wordLabel.setBounds(220, 60, 1000, 60);
+        wordLabel.setForeground(Color.YELLOW);
+        mainPanel.add(wordLabel);
+
+        JLabel unscramblerLabel = new JLabel("Unscrambler");
+        unscramblerLabel.setFont(new Font("Arial", Font.BOLD, 62));
+        unscramblerLabel.setBounds(110, 100, 1000, 62);
+        unscramblerLabel.setForeground(Color.ORANGE);
+        mainPanel.add(unscramblerLabel);
+
+        JTextField playerField = new JTextField();
+        String promptMessage = "  Player name";
+        playerField.setBounds(165, 200, 265, 25);
+        playerField.setText(promptMessage);
+        playerField.setForeground(Color.LIGHT_GRAY);
+        mainPanel.add(playerField);
+        playerField.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                playerField.setText(" ");
+                playerField.setForeground(Color.BLACK);
+            }
+        });
+
+        JButton playBtn = new JButton("PLAY");
+        playBtn.setBounds(245, 230, 100, 25);
+        playBtn.setFont(new Font("Arial", Font.BOLD, 14));
+        playBtn.setBackground(Color.GREEN.darker().darker());
+        playBtn.setForeground(Color.WHITE);
+        mainPanel.add(playBtn);
+
+        playBtn.addActionListener(e -> {
+            String playerName = playerField.getText().trim();
+
+            String errorDiagnosis = checkIfNameIsValid(playerName);
+            if (!errorDiagnosis.equals("Okay")){
+                JOptionPane.showMessageDialog(loginFrame, errorDiagnosis);
+            } else {
+                wordUnscrambler.registerPlayer(playerName);
+                gameWindow();
+                loginFrame.dispose();
+            }
+        });
+
+
+        loginFrame.setVisible(true);
+    }
+
+    public void gameWindow(){
+
+    }
+
+
+    public String checkIfNameIsValid(String name){
+        try {
+            boolean isRegistered = wordUnscrambler.checkIfActive(name);
+
+            if (name.equals("")) {
+                return "The field cannot be empty";
+            } else if (isRegistered) {
+                return "The name is taken. Please try another name.";
+            } else {
+                return "Okay";
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return "Okay";
     }
 }
