@@ -153,7 +153,6 @@ public class WordUnscramblerClient {
 
     }
 
-
     public String checkIfNameIsValid(String name){
         try {
             boolean isRegistered = wordUnscrambler.checkIfActive(name);
@@ -169,5 +168,72 @@ public class WordUnscramblerClient {
             e.printStackTrace();
         }
         return "Okay";
+    }
+
+    public void mainMenuWindow(){
+        JFrame menuFrame = new JFrame();
+        menuFrame.setSize(600, 400);
+        menuFrame.setResizable(false);
+        menuFrame.setLocationRelativeTo(null);
+        menuFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(null);
+        mainPanel.setBackground(Color.BLUE.darker().darker());
+        menuFrame.add(mainPanel);
+
+        JLabel mainMenuLabel = new JLabel("Menu");
+        mainMenuLabel.setForeground(Color.ORANGE);
+        mainMenuLabel.setFont(new Font("Arial", Font.BOLD, 40));
+        mainMenuLabel.setBounds(250, 70, 1000, 50);
+        mainPanel.add(mainMenuLabel);
+
+        JButton resumeBtn = new JButton("RESUME");
+        resumeBtn.setBounds(250, 140, 100, 25);
+        resumeBtn.setForeground(Color.WHITE);
+        resumeBtn.setBackground(Color.GREEN.darker().darker());
+        mainPanel.add(resumeBtn);
+
+        JButton restartBtn = new JButton("RESTART");
+        restartBtn.setBounds(250, 190, 100, 25);
+        restartBtn.setForeground(Color.WHITE);
+        restartBtn.setBackground(Color.GREEN.darker().darker());
+        mainPanel.add(restartBtn);
+
+        JButton quitBtn = new JButton("QUIT GAME");
+        quitBtn.setBounds(250, 240, 100, 25);
+        quitBtn.setForeground(Color.WHITE);
+        quitBtn.setBackground(Color.RED.darker());
+        mainPanel.add(quitBtn);
+
+        resumeBtn.addActionListener(e -> {
+            menuFrame.dispose();
+        });
+
+        restartBtn.addActionListener(e -> {
+            //TODO: restore 5 hearts, pick a new word and reshuffle it.
+            menuFrame.dispose();
+        });
+
+        quitBtn.addActionListener(e -> {
+            //TODO: remove the player from the connected_clients.txt
+            menuFrame.dispose();
+            loginWindow();
+        });
+
+
+
+
+
+
+
+
+
+        menuFrame.setVisible(true);
+
+
+
+
+
     }
 }
