@@ -1,4 +1,4 @@
-package server.res;
+package res;
 
 import java.io.File;
 
