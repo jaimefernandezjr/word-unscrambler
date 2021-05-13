@@ -233,7 +233,6 @@ public class WordUnscramblerClient {
 
     }
 
-
     public String checkIfNameIsValid(String name){
         try {
             boolean isRegistered = wordUnscrambler.checkIfActive(name);
@@ -249,5 +248,109 @@ public class WordUnscramblerClient {
             e.printStackTrace();
         }
         return "Okay";
+    }
+
+    public void mainMenuWindow(){
+        JFrame menuFrame = new JFrame();
+        menuFrame.setSize(600, 400);
+        menuFrame.setResizable(false);
+        menuFrame.setLocationRelativeTo(null);
+        menuFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(null);
+        mainPanel.setBackground(Color.BLUE.darker().darker());
+        menuFrame.add(mainPanel);
+
+        JLabel mainMenuLabel = new JLabel("Menu");
+        mainMenuLabel.setForeground(Color.ORANGE);
+        mainMenuLabel.setFont(new Font("Arial", Font.BOLD, 40));
+        mainMenuLabel.setBounds(250, 70, 1000, 50);
+        mainPanel.add(mainMenuLabel);
+
+        JButton resumeBtn = new JButton("RESUME");
+        resumeBtn.setBounds(250, 140, 100, 25);
+        resumeBtn.setForeground(Color.WHITE);
+        resumeBtn.setBackground(Color.GREEN.darker().darker());
+        mainPanel.add(resumeBtn);
+
+        JButton restartBtn = new JButton("RESTART");
+        restartBtn.setBounds(250, 190, 100, 25);
+        restartBtn.setForeground(Color.WHITE);
+        restartBtn.setBackground(Color.GREEN.darker().darker());
+        mainPanel.add(restartBtn);
+
+        JButton quitBtn = new JButton("QUIT GAME");
+        quitBtn.setBounds(250, 240, 100, 25);
+        quitBtn.setForeground(Color.WHITE);
+        quitBtn.setBackground(Color.RED.darker());
+        mainPanel.add(quitBtn);
+
+        resumeBtn.addActionListener(e -> {
+            menuFrame.dispose();
+        });
+
+        restartBtn.addActionListener(e -> {
+            //TODO: restore 5 hearts, pick a new word and reshuffle it.
+            menuFrame.dispose();
+        });
+
+        quitBtn.addActionListener(e -> {
+            //TODO: remove the player from the connected_clients.txt
+            menuFrame.dispose();
+            loginWindow();
+        });
+
+        menuFrame.setVisible(true);
+    }
+
+    public void gameOverWindow(String msg){
+        //this is the parameter that will be flashed on the screen ("you lose")("you win")
+        String winLoseMsg = "You Win!";
+
+        JFrame gameoverFrame = new JFrame("Word Unscrambler");
+        gameoverFrame.setSize(300, 200);
+        gameoverFrame.setResizable(false);
+        gameoverFrame.setLocationRelativeTo(null);
+        gameoverFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(null);
+        mainPanel.setBackground(Color.BLUE.darker().darker());
+        gameoverFrame.add(mainPanel);
+
+        JLabel winLoseLabel = new JLabel(winLoseMsg);
+        winLoseLabel.setBounds(85, 40, 1000, 30);
+        winLoseLabel.setFont(new Font("Consolas", Font.BOLD, 26));
+        if(winLoseMsg.equals("You Win!")){
+            winLoseLabel.setForeground(Color.GREEN.darker());
+        } else {
+            winLoseLabel.setForeground(Color.RED.darker());
+        }
+        mainPanel.add(winLoseLabel);
+
+        JButton playAgainBtn = new JButton("PLAY AGAIN");
+        playAgainBtn.setBounds(30, 90, 110, 25);
+        playAgainBtn.setBackground(Color.GREEN.darker().darker());
+        playAgainBtn.setForeground(Color.WHITE);
+        mainPanel.add(playAgainBtn);
+
+        JButton exitBtn = new JButton("EXIT");
+        exitBtn.setBackground(Color.RED.darker().darker());
+        exitBtn.setForeground(Color.white);
+        exitBtn.setBounds(150, 90, 110, 25);
+        mainPanel.add(exitBtn);
+
+        playAgainBtn.addActionListener(e -> {
+            //TODO: restarts the game
+            gameoverFrame.dispose();
+        });
+
+        exitBtn.addActionListener(e -> {
+            //TODO: go back to login window
+            gameoverFrame.dispose();
+        });
+
+        gameoverFrame.setVisible(true);
     }
 }
