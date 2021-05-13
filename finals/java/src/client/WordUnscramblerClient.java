@@ -5,6 +5,7 @@ import org.omg.CosNaming.NamingContextExt;
 import org.omg.CosNaming.NamingContextExtHelper;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -96,7 +97,7 @@ public class WordUnscramblerClient {
 
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(null);
-        mainPanel.setBackground(Color.BLUE.darker().darker());
+        mainPanel.setBackground(new Color(111, 45, 152));
         loginFrame.add(mainPanel);
 
         JLabel wordLabel = new JLabel("Word");
@@ -150,6 +151,85 @@ public class WordUnscramblerClient {
     }
 
     public void gameWindow(){
+        JFrame gameFrame = new JFrame("Word Unscrambler");
+        gameFrame.setSize(600, 400);
+        gameFrame.setResizable(false);
+        gameFrame.setLocationRelativeTo(null);
+        gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(null);
+        mainPanel.setBackground(new Color(111, 45, 152));
+        gameFrame.add(mainPanel);
+
+        JLabel scrambleLabel = new JLabel("Word Unscrambling Game!");
+        scrambleLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        scrambleLabel.setBounds(175, 20, 1000, 60);
+        scrambleLabel.setForeground(Color.YELLOW);
+        mainPanel.add(scrambleLabel);
+
+        JLabel words = new JLabel("sample word",SwingConstants.CENTER);
+        words.setBounds(165, 70, 265, 40);
+        words.setFont(new Font("Arial", Font.BOLD, 14));
+        Border wordborder = BorderFactory.createLineBorder(Color.white,1);
+        words.setBorder(wordborder);
+        words.setForeground(Color.white);
+        mainPanel.add(words);
+
+        JLabel answerLabel = new JLabel("What's the word?");
+        answerLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        answerLabel.setBounds(210, 110, 1000, 60);
+        answerLabel.setForeground(Color.YELLOW);
+        mainPanel.add(answerLabel);
+
+        JTextField answerField = new JTextField();
+        answerField.setBounds(130, 155, 230, 30);
+        answerField.setForeground(Color.black);
+        mainPanel.add(answerField);
+
+        JButton checkBttn = new JButton("CHECK");
+        checkBttn.setFont(new Font("Arial", Font.BOLD, 14));
+        checkBttn.setBounds(370, 155, 100,30);
+        checkBttn.setBackground(Color.GREEN.darker().darker());
+        checkBttn.setForeground(Color.WHITE);
+        mainPanel.add(checkBttn);
+
+        JLabel correctLabel = new JLabel(" CORRECT ");
+        correctLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        correctLabel.setBounds(150, 205, 120, 55);
+        Border correctBorder = BorderFactory.createLineBorder(Color.green.darker(), 5);
+        correctLabel.setBorder(correctBorder);
+        correctLabel.setForeground(Color.white);
+        mainPanel.add(correctLabel);
+
+        JLabel wrongLabel = new JLabel("   WRONG");
+        wrongLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        wrongLabel.setBounds(300, 205, 120, 55);
+        Border wrongBorder = BorderFactory.createLineBorder(Color.red, 5);
+        wrongLabel.setBorder(wrongBorder);
+        wrongLabel.setForeground(Color.white);
+        mainPanel.add(wrongLabel);
+
+        JButton startBttn = new JButton("START");
+        startBttn.setFont(new Font("Arial", Font.BOLD, 14));
+        startBttn.setBounds(120, 290, 150,30);
+        startBttn.setBackground(new Color(83,162,190));
+        startBttn.setForeground(Color.WHITE);
+        mainPanel.add(startBttn);
+
+        JButton resetBttn = new JButton("RESET");
+        resetBttn.setFont(new Font("Arial", Font.BOLD, 14));
+        resetBttn.setBounds(300, 290, 150,30);
+        resetBttn.setBackground(new Color(83,162,190));
+        resetBttn.setForeground(Color.WHITE);
+        mainPanel.add(resetBttn);
+
+        resetBttn.addActionListener( e->{
+            words.setText("");
+            answerField.setText("");
+        });
+
+        gameFrame.setVisible(true);
 
     }
 
