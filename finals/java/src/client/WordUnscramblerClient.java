@@ -221,19 +221,56 @@ public class WordUnscramblerClient {
             loginWindow();
         });
 
-
-
-
-
-
-
-
-
         menuFrame.setVisible(true);
+    }
 
+    public void gameOverWindow(String msg){
+        //this is the parameter that will be flashed on the screen ("you lose")("you win")
+        String winLoseMsg = "You Win!";
 
+        JFrame gameoverFrame = new JFrame("Word Unscrambler");
+        gameoverFrame.setSize(300, 200);
+        gameoverFrame.setResizable(false);
+        gameoverFrame.setLocationRelativeTo(null);
+        gameoverFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(null);
+        mainPanel.setBackground(Color.BLUE.darker().darker());
+        gameoverFrame.add(mainPanel);
 
+        JLabel winLoseLabel = new JLabel(winLoseMsg);
+        winLoseLabel.setBounds(85, 40, 1000, 30);
+        winLoseLabel.setFont(new Font("Consolas", Font.BOLD, 26));
+        if(winLoseMsg.equals("You Win!")){
+            winLoseLabel.setForeground(Color.GREEN.darker());
+        } else {
+            winLoseLabel.setForeground(Color.RED.darker());
+        }
+        mainPanel.add(winLoseLabel);
 
+        JButton playAgainBtn = new JButton("PLAY AGAIN");
+        playAgainBtn.setBounds(30, 90, 110, 25);
+        playAgainBtn.setBackground(Color.GREEN.darker().darker());
+        playAgainBtn.setForeground(Color.WHITE);
+        mainPanel.add(playAgainBtn);
+
+        JButton exitBtn = new JButton("EXIT");
+        exitBtn.setBackground(Color.RED.darker().darker());
+        exitBtn.setForeground(Color.white);
+        exitBtn.setBounds(150, 90, 110, 25);
+        mainPanel.add(exitBtn);
+
+        playAgainBtn.addActionListener(e -> {
+            //TODO: restarts the game
+            gameoverFrame.dispose();
+        });
+
+        exitBtn.addActionListener(e -> {
+            //TODO: go back to login window
+            gameoverFrame.dispose();
+        });
+
+        gameoverFrame.setVisible(true);
     }
 }
