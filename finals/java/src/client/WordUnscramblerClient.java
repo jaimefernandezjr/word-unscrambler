@@ -178,55 +178,46 @@ public class WordUnscramblerClient {
 
         JLabel answerLabel = new JLabel("What's the word?");
         answerLabel.setFont(new Font("Arial", Font.BOLD, 20));
-        answerLabel.setBounds(210, 110, 1000, 60);
+        answerLabel.setBounds(210, 130, 1000, 60);
         answerLabel.setForeground(Color.YELLOW);
         mainPanel.add(answerLabel);
 
         JTextField answerField = new JTextField();
-        answerField.setBounds(130, 155, 230, 30);
+        answerField.setHorizontalAlignment(SwingConstants.CENTER);
+        answerField.setBounds(160, 180, 265, 30);
         answerField.setForeground(Color.black);
         mainPanel.add(answerField);
 
         JButton checkBttn = new JButton("CHECK");
         checkBttn.setFont(new Font("Arial", Font.BOLD, 14));
-        checkBttn.setBounds(370, 155, 100,30);
+        checkBttn.setBounds(370, 240, 100,30);
         checkBttn.setBackground(Color.GREEN.darker().darker());
         checkBttn.setForeground(Color.WHITE);
         mainPanel.add(checkBttn);
 
-        JLabel correctLabel = new JLabel(" CORRECT ");
-        correctLabel.setFont(new Font("Arial", Font.BOLD, 20));
-        correctLabel.setBounds(150, 205, 120, 55);
-        Border correctBorder = BorderFactory.createLineBorder(Color.green.darker(), 5);
-        correctLabel.setBorder(correctBorder);
-        correctLabel.setForeground(Color.white);
-        mainPanel.add(correctLabel);
+        JButton clearBttn = new JButton("CLEAR");
+        clearBttn.setFont(new Font("Arial", Font.BOLD, 14));
+        clearBttn.setBounds(120, 240, 100,30);
+        clearBttn.setBackground(new Color(83,162,190));
+        clearBttn.setForeground(Color.WHITE);
+        mainPanel.add(clearBttn);
 
-        JLabel wrongLabel = new JLabel("   WRONG");
-        wrongLabel.setFont(new Font("Arial", Font.BOLD, 20));
-        wrongLabel.setBounds(300, 205, 120, 55);
-        Border wrongBorder = BorderFactory.createLineBorder(Color.red, 5);
-        wrongLabel.setBorder(wrongBorder);
-        wrongLabel.setForeground(Color.white);
-        mainPanel.add(wrongLabel);
+        JButton shuffleBttn = new JButton("SHUFFLE");
+        shuffleBttn.setFont(new Font("Arial", Font.BOLD, 14));
+        shuffleBttn.setBounds(245, 240, 100,30);
+        shuffleBttn.setBackground(new Color(83,162,190));
+        shuffleBttn.setForeground(Color.WHITE);
+        mainPanel.add(shuffleBttn);
 
-        JButton startBttn = new JButton("START");
-        startBttn.setFont(new Font("Arial", Font.BOLD, 14));
-        startBttn.setBounds(120, 290, 150,30);
-        startBttn.setBackground(new Color(83,162,190));
-        startBttn.setForeground(Color.WHITE);
-        mainPanel.add(startBttn);
+        JButton mainMenuBttn = new JButton("MAIN MENU");
+        mainMenuBttn.setFont(new Font("Arial", Font.BOLD, 14));
+        mainMenuBttn.setBounds(230, 300, 130,30);
+        mainMenuBttn.setBackground(Color.orange);
+        mainMenuBttn.setForeground(Color.black);
+        mainPanel.add(mainMenuBttn);
 
-        JButton resetBttn = new JButton("RESET");
-        resetBttn.setFont(new Font("Arial", Font.BOLD, 14));
-        resetBttn.setBounds(300, 290, 150,30);
-        resetBttn.setBackground(new Color(83,162,190));
-        resetBttn.setForeground(Color.WHITE);
-        mainPanel.add(resetBttn);
-
-        resetBttn.addActionListener( e->{
-            words.setText("");
-            answerField.setText("");
+        mainMenuBttn.addActionListener( e->{
+            mainMenuWindow();
         });
 
         gameFrame.setVisible(true);
