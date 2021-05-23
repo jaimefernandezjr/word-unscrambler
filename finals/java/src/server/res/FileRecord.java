@@ -3,8 +3,8 @@ package res;
 import java.io.File;
 
 public enum FileRecord {
-    WORDS_DATABASE("server/res/words.txt"),
-    CONNECTED_CLIENTS("server/res/connected_clients.txt");
+    WORDS_DATABASE("res/words.txt"),
+    CONNECTED_CLIENTS("res/connected_clients.txt");
 
     private final File filepath;
 

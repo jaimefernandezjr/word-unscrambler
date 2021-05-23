@@ -1,5 +1,6 @@
 import WordUnscramblerApp.WordUnscrambler;
 import WordUnscramblerApp.WordUnscramblerHelper;
+import jdk.nashorn.internal.scripts.JO;
 import org.omg.CORBA.ORB;
 import org.omg.CosNaming.NamingContextExt;
 import org.omg.CosNaming.NamingContextExtHelper;
@@ -9,19 +10,19 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class WordUnscramblerClient {
-    //TODO: mainMenuWindow
 
     public static WordUnscrambler wordUnscrambler;
 
     public static void main(String[] args) {
         WordUnscramblerClient client = new WordUnscramblerClient();
-//        client.clientNetworkSetup(args);
+        client.clientNetworkSetup(args);
 //        client.loginWindow();
 //        client.gameWindow();
 //        client.mainMenuWindow();
-        client.gameOverWindow("You win!");
+//        client.gameOverWindow("You win!");
     }
 
     public void clientNetworkSetup(String[] args) {
@@ -123,7 +124,7 @@ public class WordUnscramblerClient {
         playerField.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                playerField.setText(" ");
+                playerField.setText("");
                 playerField.setForeground(Color.BLACK);
             }
         });
@@ -136,15 +137,20 @@ public class WordUnscramblerClient {
         mainPanel.add(playBtn);
 
         playBtn.addActionListener(e -> {
-            String playerName = playerField.getText().trim();
+            String playerName = playerField.getText();
 
             String errorDiagnosis = checkIfNameIsValid(playerName);
+
             if (!errorDiagnosis.equals("Okay")){
                 JOptionPane.showMessageDialog(loginFrame, errorDiagnosis);
             } else {
-                wordUnscrambler.registerPlayer(playerName);
-                gameWindow();
-                loginFrame.dispose();
+                boolean isRegistered = wordUnscrambler.registerPlayer(playerName);
+                if(isRegistered){
+                    loginFrame.dispose();
+                    gameWindow(playerName);
+                } else {
+                    JOptionPane.showMessageDialog(loginFrame, "This name is already taken. Please enter another name");
+                }
             }
         });
 
@@ -152,7 +158,9 @@ public class WordUnscramblerClient {
         loginFrame.setVisible(true);
     }
 
-    public void gameWindow(){
+    public void gameWindow(String name){
+        AtomicInteger lives = new AtomicInteger(5);
+
         JFrame gameFrame = new JFrame("Word Unscrambler");
         gameFrame.setSize(600, 400);
         gameFrame.setResizable(false);
@@ -164,19 +172,27 @@ public class WordUnscramblerClient {
         mainPanel.setBackground(new Color(111, 45, 152));
         gameFrame.add(mainPanel);
 
+        JLabel livesLabel = new JLabel("Lives: " + lives);
+        livesLabel.setBounds(5, 5, 500, 30);
+        livesLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        livesLabel.setForeground(Color.BLACK);
+        mainPanel.add(livesLabel);
+
         JLabel scrambleLabel = new JLabel("Word Unscrambling Game!");
         scrambleLabel.setFont(new Font("Arial", Font.BOLD, 20));
         scrambleLabel.setBounds(175, 20, 1000, 60);
         scrambleLabel.setForeground(Color.YELLOW);
         mainPanel.add(scrambleLabel);
 
-        JLabel words = new JLabel("sample word",SwingConstants.CENTER);
-        words.setBounds(165, 70, 265, 40);
-        words.setFont(new Font("Arial", Font.BOLD, 14));
+        String shuffledMysteryWord = wordUnscrambler.getShuffledMysteryWord(name);
+
+        JLabel shuffledWordLabel = new JLabel(shuffledMysteryWord,SwingConstants.CENTER);
+        shuffledWordLabel.setBounds(165, 70, 265, 40);
+        shuffledWordLabel.setFont(new Font("Arial", Font.BOLD, 14));
         Border wordborder = BorderFactory.createLineBorder(Color.white,1);
-        words.setBorder(wordborder);
-        words.setForeground(Color.white);
-        mainPanel.add(words);
+        shuffledWordLabel.setBorder(wordborder);
+        shuffledWordLabel.setForeground(Color.white);
+        mainPanel.add(shuffledWordLabel);
 
         JLabel answerLabel = new JLabel("What's the word?");
         answerLabel.setFont(new Font("Arial", Font.BOLD, 20));
@@ -190,12 +206,12 @@ public class WordUnscramblerClient {
         answerField.setForeground(Color.black);
         mainPanel.add(answerField);
 
-        JButton checkBttn = new JButton("CHECK");
-        checkBttn.setFont(new Font("Arial", Font.BOLD, 14));
-        checkBttn.setBounds(370, 240, 100,30);
-        checkBttn.setBackground(Color.GREEN.darker().darker());
-        checkBttn.setForeground(Color.WHITE);
-        mainPanel.add(checkBttn);
+        JButton shuffleBtn = new JButton("SHUFFLE");
+        shuffleBtn.setFont(new Font("Arial", Font.BOLD, 14));
+        shuffleBtn.setBounds(370, 240, 100,30);
+        shuffleBtn.setBackground(new Color(83,162,190));
+        shuffleBtn.setForeground(Color.WHITE);
+        mainPanel.add(shuffleBtn);
 
         JButton clearBttn = new JButton("CLEAR");
         clearBttn.setFont(new Font("Arial", Font.BOLD, 14));
@@ -204,12 +220,12 @@ public class WordUnscramblerClient {
         clearBttn.setForeground(Color.WHITE);
         mainPanel.add(clearBttn);
 
-        JButton shuffleBttn = new JButton("SHUFFLE");
-        shuffleBttn.setFont(new Font("Arial", Font.BOLD, 14));
-        shuffleBttn.setBounds(245, 240, 100,30);
-        shuffleBttn.setBackground(new Color(83,162,190));
-        shuffleBttn.setForeground(Color.WHITE);
-        mainPanel.add(shuffleBttn);
+        JButton enterBtn = new JButton("ENTER");
+        enterBtn.setFont(new Font("Arial", Font.BOLD, 14));
+        enterBtn.setBounds(245, 240, 100,30);
+        enterBtn.setBackground(Color.GREEN.darker().darker());
+        enterBtn.setForeground(Color.WHITE);
+        mainPanel.add(enterBtn);
 
         JButton mainMenuBttn = new JButton("MAIN MENU");
         mainMenuBttn.setFont(new Font("Arial", Font.BOLD, 14));
@@ -218,22 +234,43 @@ public class WordUnscramblerClient {
         mainMenuBttn.setForeground(Color.black);
         mainPanel.add(mainMenuBttn);
 
-        mainMenuBttn.addActionListener( e->{
-            mainMenuWindow();
+
+        shuffleBtn.addActionListener(e -> {
+            shuffledWordLabel.setText(wordUnscrambler.shuffleLetters(name, shuffledMysteryWord));
+            gameFrame.setVisible(false);
+            gameFrame.setVisible(true);
         });
 
+        clearBttn.addActionListener(e ->{
+            answerField.setText("");
+        });
+
+        enterBtn.addActionListener(e -> {
+            boolean isCorrectAnswer = wordUnscrambler.checkAnswer(name, answerField.getText().trim());
+            if(isCorrectAnswer){
+                gameOverWindow("You Win!");
+            } else {
+                lives.getAndDecrement();
+                int chances = Integer.parseInt(String.valueOf(lives));
+                if(chances <= 0){
+                    gameFrame.dispose();
+                    lives.set(5);
+                    gameOverWindow("You Lose!");
+                }
+            }
+        });
+
+        mainMenuBttn.addActionListener( e->{
+            mainMenuWindow(name);
+        });
         gameFrame.setVisible(true);
 
     }
 
     public String checkIfNameIsValid(String name){
         try {
-            boolean isRegistered = wordUnscrambler.checkIfActive(name);
-
             if (name.equals("")) {
                 return "The field cannot be empty";
-            } else if (isRegistered) {
-                return "The name is taken. Please try another name.";
             } else {
                 return "Okay";
             }
@@ -243,7 +280,7 @@ public class WordUnscramblerClient {
         }
     }
 
-    public void mainMenuWindow(){
+    public void mainMenuWindow(String name){
         JFrame menuFrame = new JFrame();
         menuFrame.setSize(600, 400);
         menuFrame.setResizable(false);
@@ -279,17 +316,16 @@ public class WordUnscramblerClient {
         quitBtn.setBackground(Color.RED.darker());
         mainPanel.add(quitBtn);
 
-        resumeBtn.addActionListener(e -> {
-            menuFrame.dispose();
-        });
+        resumeBtn.addActionListener(e -> menuFrame.dispose());
 
         restartBtn.addActionListener(e -> {
-            //TODO: restore 5 hearts, pick a new word and reshuffle it.
             menuFrame.dispose();
+            gameWindow(name);
         });
 
         quitBtn.addActionListener(e -> {
             //TODO: remove the player from the connected_clients.txt
+            boolean isRemovePlayer = wordUnscrambler.removePlayer(name);
             menuFrame.dispose();
             loginWindow();
         });

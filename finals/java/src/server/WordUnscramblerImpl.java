@@ -4,21 +4,14 @@ import WordUnscramblerApp.WordUnscramblerPOA;
 import res.FileRecord;
 
 public class WordUnscramblerImpl extends WordUnscramblerPOA {
-    BufferedReader clientsReader;
-    BufferedReader wordsReader;
-    BufferedWriter clientsWriter;
-
-    WordUnscramblerImpl() throws Exception{
-        clientsReader = new BufferedReader(new FileReader(FileRecord.CONNECTED_CLIENTS.getFilepath()));
-        wordsReader = new BufferedReader(new FileReader(FileRecord.WORDS_DATABASE.getFilepath()));
-        clientsWriter = new BufferedWriter(new FileWriter(FileRecord.CONNECTED_CLIENTS.getFilepath(), true));
-    }
 
     public boolean registerPlayer(String player) {
-        try {
+        try (
+                BufferedReader clientsReader = new BufferedReader(new FileReader(FileRecord.CONNECTED_CLIENTS.getFilepath()));
+                BufferedWriter clientsWriter = new BufferedWriter(new FileWriter(FileRecord.CONNECTED_CLIENTS.getFilepath(), true));
+        ){
             //checks if the player is already existing in the database
             String line = clientsReader.readLine();
-
             while (line != null) {
                 if (line.equals(player)) {
                     return false;
@@ -31,9 +24,6 @@ public class WordUnscramblerImpl extends WordUnscramblerPOA {
                 while (clientsReader.readLine() != null)
                     clientsReader.readLine();
                 clientsWriter.write(player + "\n");
-
-                clientsReader.close();
-                clientsWriter.close();
 
                 return true;
             }
@@ -53,6 +43,9 @@ public class WordUnscramblerImpl extends WordUnscramblerPOA {
         String playerXmysteryWord = player + "&&" + mysteryWord;
 
         try {
+            BufferedReader clientsReader = new BufferedReader(new FileReader(FileRecord.CONNECTED_CLIENTS.getFilepath()));
+            BufferedWriter clientsWriter = new BufferedWriter(new FileWriter(FileRecord.CONNECTED_CLIENTS.getFilepath(), true));
+
             //put all the clients in an ArrayList
             List<String> clientsList = new ArrayList<>();
             String line = clientsReader.readLine();
@@ -80,28 +73,14 @@ public class WordUnscramblerImpl extends WordUnscramblerPOA {
                     }
                 }
             }
-
-            //replace the file in the database with the clientsList array
-            //delete the file
             clientsReader.close();
             clientsWriter.close();
-            String fileLoc = String.valueOf(FileRecord.CONNECTED_CLIENTS.getFilepath());
-            File clientsFile = new File(fileLoc);
-            if (clientsFile.delete())
-                System.out.println("Deleted the file: " + clientsFile.getName());
-            else
-                System.out.println("Failed to delete the file.");
 
-            //create the same file that is empty
-            File newClientsFile = new File(fileLoc);
-            if (newClientsFile.createNewFile())
-                System.out.println("Created the file: " + newClientsFile.getName());
-            else
-                System.out.println("File already exists.");
+            deleteAndCreateFile();
 
-            clientsReader = new BufferedReader(new FileReader(fileLoc));
-            clientsWriter = new BufferedWriter(new FileWriter(fileLoc));
             //put the clientsList's content to the newClientsFile
+            clientsReader = new BufferedReader(new FileReader(FileRecord.CONNECTED_CLIENTS.getFilepath()));
+            clientsWriter = new BufferedWriter(new FileWriter(FileRecord.CONNECTED_CLIENTS.getFilepath()));
             for (String c : clientsList) {
                 if (clientsReader.readLine() == null) {
                     while (clientsReader.readLine() != null) {
@@ -124,14 +103,18 @@ public class WordUnscramblerImpl extends WordUnscramblerPOA {
         String shuffledWord = "";
         String mysteryWord = "";
 
-        try {
+        try(
+                BufferedReader clientsReader = new BufferedReader(new FileReader(FileRecord.CONNECTED_CLIENTS.getFilepath()));
+        ){
             //obtains the mysteryWord of the player
             String line = clientsReader.readLine();
             while (line != null) {
-                String[] details = line.split("&&");
-                if (player.equals(details[0])) {
-                    mysteryWord = details[1];
-                    break;
+                if(line.contains("&&")) {
+                    String[] details = line.split("&&");
+                    if (player.equals(details[0])) {
+                        mysteryWord = details[1];
+                        break;
+                    }
                 }
                 line = clientsReader.readLine();
             }
@@ -156,10 +139,12 @@ public class WordUnscramblerImpl extends WordUnscramblerPOA {
     public boolean checkAnswer(String player, String guessWord) {
         //checks the answer if it is correct or not
         String mysteryWord = "";
-        try {
+        try (
+                BufferedReader clientsReader = new BufferedReader(new FileReader(FileRecord.CONNECTED_CLIENTS.getFilepath()));
+        ){
             String line = clientsReader.readLine();
             while (line != null) {
-                String[] details = line.split("");
+                String[] details = line.split("&&");
                 if (player.equals(details[0])) {
                     mysteryWord = details[1];
                 }
@@ -177,6 +162,8 @@ public class WordUnscramblerImpl extends WordUnscramblerPOA {
         Random random = new Random();
 
         try {
+            BufferedReader wordsReader = new BufferedReader(new FileReader(FileRecord.WORDS_DATABASE.getFilepath()));
+
             //populate the words list with words from words.txt
             String line = wordsReader.readLine();
             while (line != null) {
@@ -189,5 +176,83 @@ public class WordUnscramblerImpl extends WordUnscramblerPOA {
         }
 
         return words.get(random.nextInt(words.size()));
+    }
+
+    public boolean removePlayer(String player) {
+        try {
+            BufferedReader clientsReader = new BufferedReader(new FileReader(FileRecord.CONNECTED_CLIENTS.getFilepath()));
+            BufferedWriter clientsWriter = new BufferedWriter(new FileWriter(FileRecord.CONNECTED_CLIENTS.getFilepath(), true));
+            //add all clients in a list
+            List<String> clientsList = new ArrayList<>();
+            String line = clientsReader.readLine();
+            while (line != null) {
+                clientsList.add(line);
+
+                line = clientsReader.readLine();
+            }
+
+            //delete the player from the list
+            for (String c : clientsList) {
+
+                if (c.contains("&&")) {
+                    String[] details = c.split("&&");
+                    if (details[0].equals(player)) {
+                        clientsList.remove(c);
+                        break;
+                    }
+                } else {
+                    if (c.equals(player)) {
+                        clientsList.remove(c);
+                        break;
+                    }
+                }
+            }
+            clientsReader.close();
+            clientsWriter.close();
+
+            //update the file
+            deleteAndCreateFile();
+
+            clientsReader = new BufferedReader(new FileReader(FileRecord.CONNECTED_CLIENTS.getFilepath()));
+            clientsWriter = new BufferedWriter(new FileWriter(FileRecord.CONNECTED_CLIENTS.getFilepath()));
+
+            //write the list to the file
+            for (String c : clientsList) {
+                if (clientsReader.readLine() == null) {
+                    while (clientsReader.readLine() != null) {
+                        clientsReader.readLine();
+                    }
+                    clientsWriter.write(c);
+                    clientsWriter.close();
+                    return true;
+                }
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    public void deleteAndCreateFile(){
+        //replace the file in the database with the clientsList array
+        //delete the file
+        try {
+            String fileLoc = String.valueOf(FileRecord.CONNECTED_CLIENTS.getFilepath());
+            File clientsFile = new File(fileLoc);
+            if (clientsFile.delete())
+                System.out.println("Deleted the file: " + clientsFile.getName());
+            else
+                System.out.println("Failed to delete the file.");
+
+            //create the same file that is empty
+            File newClientsFile = new File(fileLoc);
+            if (newClientsFile.createNewFile())
+                System.out.println("Created the file: " + newClientsFile.getName());
+            else
+                System.out.println("File already exists.");
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }
