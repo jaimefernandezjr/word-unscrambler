@@ -11,14 +11,17 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class WordUnscramblerClient {
-    //TODO: gameWindow
     //TODO: mainMenuWindow
 
     public static WordUnscrambler wordUnscrambler;
 
     public static void main(String[] args) {
         WordUnscramblerClient client = new WordUnscramblerClient();
-        client.clientNetworkSetup(args);
+//        client.clientNetworkSetup(args);
+//        client.loginWindow();
+//        client.gameWindow();
+//        client.mainMenuWindow();
+        client.gameOverWindow("You win!");
     }
 
     public void clientNetworkSetup(String[] args) {
@@ -44,7 +47,7 @@ public class WordUnscramblerClient {
 
         JLabel objectReferenceLabel = new JLabel("Object Reference Name: ");
         objectReferenceLabel.setForeground(Color.WHITE);
-        objectReferenceLabel.setBounds(10, 100, 50, 25);
+        objectReferenceLabel.setBounds(10, 100, 150, 25);
         mainPanel.add(objectReferenceLabel);
 
         JTextField objectReferenceField = new JTextField(20);
@@ -65,14 +68,13 @@ public class WordUnscramblerClient {
             }
             try {
                 ORB orb = ORB.init(args, null);
-                org.omg.CORBA.Object objRef =
-                        orb.resolve_initial_references(rootNaming);
+                org.omg.CORBA.Object objRef = orb.resolve_initial_references(rootNaming);
                 NamingContextExt ncRef = NamingContextExtHelper.narrow(objRef);
                 String name = objectReference;
                 wordUnscrambler = WordUnscramblerHelper.narrow(ncRef.resolve_str(name));
 
                 loginWindow();
-                clientFrame.setState(JFrame.ICONIFIED);
+                clientFrame.setVisible(false);
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
@@ -237,8 +239,8 @@ public class WordUnscramblerClient {
             }
         } catch (Exception e){
             e.printStackTrace();
+            return "There is an error";
         }
-        return "Okay";
     }
 
     public void mainMenuWindow(){
@@ -295,9 +297,7 @@ public class WordUnscramblerClient {
         menuFrame.setVisible(true);
     }
 
-    public void gameOverWindow(String msg){
-        //this is the parameter that will be flashed on the screen ("you lose")("you win")
-        String winLoseMsg = "You Win!";
+    public void gameOverWindow(String winLoseMsg){
 
         JFrame gameoverFrame = new JFrame("Word Unscrambler");
         gameoverFrame.setSize(300, 200);

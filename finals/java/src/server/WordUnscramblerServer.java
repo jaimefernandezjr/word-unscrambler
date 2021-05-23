@@ -11,6 +11,7 @@ public class WordUnscramblerServer {
     JFrame serverFrame;
 
     public void serverNetworkSetup(String[] args){
+
         serverFrame = new JFrame("Server Corba Network Setup");
         serverFrame.setSize(400, 300);
         serverFrame.setResizable(false);
@@ -60,38 +61,38 @@ public class WordUnscramblerServer {
         mainPanel.add(runBtn);
 
         runBtn.addActionListener(e -> {
-            String rootPoa = rootpoaField.getText().trim();
-            String rootNaming = rootNamingField.getText().trim();
-            String objectReference = objectReferenceField.getText().trim();
-
-            String errorDiagnosis = checkIfInputsAreValid(rootPoa, rootNaming, objectReference);
-
-            if (!errorDiagnosis.equals("Okay")) {
-                JOptionPane.showMessageDialog(serverFrame, errorDiagnosis);
-            } else {
-                try {
-                    ORB orb = ORB.init(args, null);
-                    POA rootpoa = POAHelper.narrow(orb.resolve_initial_references(rootPoa));
-                    rootpoa.the_POAManager().activate();
-                    WordUnscramblerImpl helloImpl = new WordUnscramblerImpl();
-                    org.omg.CORBA.Object ref = rootpoa.servant_to_reference(helloImpl);
-                    WordUnscrambler href = WordUnscramblerHelper.narrow(ref);
-                    org.omg.CORBA.Object objRef = orb.resolve_initial_references(rootNaming);
-                    NamingContextExt ncRef = NamingContextExtHelper.narrow(objRef);
-
-                    String name = objectReference;
-                    NameComponent path[] = ncRef.to_name(name);
-                    ncRef.rebind(path, href);
-                    JOptionPane.showMessageDialog(serverFrame, "WordUnscrambler Server is running...");
-                    serverFrame.setState(JFrame.ICONIFIED);
-                    while (true) {
-                        orb.run();
-                    }
-
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-            }
+//            String rootPoa = rootpoaField.getText().trim();
+//            String rootNaming = rootNamingField.getText().trim();
+//            String objectReference = objectReferenceField.getText().trim();
+//
+//            String errorDiagnosis = checkIfInputsAreValid(rootPoa, rootNaming, objectReference);
+//
+//            if (!errorDiagnosis.equals("Okay")) {
+//                JOptionPane.showMessageDialog(serverFrame, errorDiagnosis);
+//            } else {
+//                try {
+//                    ORB orb = ORB.init(args, null);
+//                    POA rootpoa = POAHelper.narrow(orb.resolve_initial_references(rootPoa));
+//                    rootpoa.the_POAManager().activate();
+//                    WordUnscramblerImpl helloImpl = new WordUnscramblerImpl();
+//                    org.omg.CORBA.Object ref = rootpoa.servant_to_reference(helloImpl);
+//                    WordUnscrambler href = WordUnscramblerHelper.narrow(ref);
+//                    org.omg.CORBA.Object objRef = orb.resolve_initial_references(rootNaming);
+//                    NamingContextExt ncRef = NamingContextExtHelper.narrow(objRef);
+//
+//                    String name = objectReference;
+//                    NameComponent path[] = ncRef.to_name(name);
+//                    ncRef.rebind(path, href);
+//                    JOptionPane.showMessageDialog(serverFrame, "WordUnscrambler server is running...");
+//                    serverFrame.setVisible(false);
+//                    while (true) {
+//                        orb.run();
+//                    }
+//
+//                } catch (Exception ex) {
+//                    ex.printStackTrace();
+//                }
+//            }
         });
 
 
@@ -114,4 +115,4 @@ public class WordUnscramblerServer {
             ex.printStackTrace();
         }
     }
-}   
+}
