@@ -13,7 +13,7 @@ public class WordUnscramblerServer {
     public void serverNetworkSetup(String[] args){
 
         serverFrame = new JFrame("Server Corba Network Setup");
-        serverFrame.setSize(400, 300);
+        serverFrame.setSize(400, 200);
         serverFrame.setResizable(false);
         serverFrame.setLocationRelativeTo(null);
         serverFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -29,55 +29,33 @@ public class WordUnscramblerServer {
         titleLabel.setForeground(Color.WHITE);
         mainPanel.add(titleLabel);
 
-        JLabel rootpoaLabel = new JLabel("Root POA Reference: ");
-        rootpoaLabel.setForeground(Color.WHITE);
-        rootpoaLabel.setBounds(10, 70, 150, 25);
-        mainPanel.add(rootpoaLabel);
-
-        JTextField rootpoaField = new JTextField(20);
-        rootpoaField.setBounds(200, 70, 150, 25);
-        mainPanel.add(rootpoaField);
-
-        JLabel rootNamingLabel = new JLabel("Root Naming Context: ");
-        rootNamingLabel.setForeground(Color.WHITE);
-        rootNamingLabel.setBounds(10, 120, 150, 25);
-        mainPanel.add(rootNamingLabel);
-
-        JTextField rootNamingField = new JTextField(20);
-        rootNamingField.setBounds(200, 120, 150, 25);
-        mainPanel.add(rootNamingField);
-
         JLabel objectReferenceLabel = new JLabel("Object Reference Name: ");
-        objectReferenceLabel.setBounds(10, 170, 150, 25);
+        objectReferenceLabel.setBounds(10, 70, 150, 25);
         objectReferenceLabel.setForeground(Color.WHITE);
         mainPanel.add(objectReferenceLabel);
 
         JTextField objectReferenceField = new JTextField();
-        objectReferenceField.setBounds(200, 170, 150, 25);
+        objectReferenceField.setBounds(200, 70, 150, 25);
         mainPanel.add(objectReferenceField);
 
         JButton runBtn = new JButton("RUN");
-        runBtn.setBounds(225, 220, 100, 25);
+        runBtn.setBounds(225, 115, 100, 25);
         mainPanel.add(runBtn);
 
         runBtn.addActionListener(e -> {
-            String rootPoa = rootpoaField.getText().trim();
-            String rootNaming = rootNamingField.getText().trim();
             String objectReference = objectReferenceField.getText().trim();
 
-            String errorDiagnosis = checkIfInputsAreValid(rootPoa, rootNaming, objectReference);
-
-            if (!errorDiagnosis.equals("Okay")) {
-                JOptionPane.showMessageDialog(serverFrame, errorDiagnosis);
+            if (objectReference.equals("")) {
+                JOptionPane.showMessageDialog(serverFrame, "The field can't be empty.");
             } else {
                 try {
                     ORB orb = ORB.init(args, null);
-                    POA rootpoa = POAHelper.narrow(orb.resolve_initial_references(rootPoa));
+                    POA rootpoa = POAHelper.narrow(orb.resolve_initial_references("RootPOA"));
                     rootpoa.the_POAManager().activate();
                     WordUnscramblerImpl helloImpl = new WordUnscramblerImpl();
                     org.omg.CORBA.Object ref = rootpoa.servant_to_reference(helloImpl);
                     WordUnscrambler href = WordUnscramblerHelper.narrow(ref);
-                    org.omg.CORBA.Object objRef = orb.resolve_initial_references(rootNaming);
+                    org.omg.CORBA.Object objRef = orb.resolve_initial_references("NameService");
                     NamingContextExt ncRef = NamingContextExtHelper.narrow(objRef);
 
                     String name = objectReference;
@@ -98,13 +76,6 @@ public class WordUnscramblerServer {
 
         serverFrame.getRootPane().setDefaultButton(runBtn);
         serverFrame.setVisible(true);
-    }
-
-    public String checkIfInputsAreValid(String rootpoa, String rootNaming, String objectReference){
-        if(rootpoa.equals("") || rootNaming.equals("") || objectReference.equals("")){
-            return "The fields cannot be empty";
-        }
-        return "Okay";
     }
 
     public static void main(String args[]) {

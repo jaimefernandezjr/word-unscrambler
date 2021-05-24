@@ -13,9 +13,9 @@ public class WordUnscramblerImpl extends WordUnscramblerPOA {
             //checks if the player is already existing in the database
             String line = clientsReader.readLine();
             while (line != null) {
-                if (line.equals(player)) {
+                String[] details = line.split("&&");
+                if(details[0].equals(player))
                     return false;
-                }
                 line = clientsReader.readLine();
             }
 
@@ -24,7 +24,7 @@ public class WordUnscramblerImpl extends WordUnscramblerPOA {
                 while (clientsReader.readLine() != null)
                     clientsReader.readLine();
                 clientsWriter.write(player + "\n");
-
+                clientsWriter.close();
                 return true;
             }
 
@@ -57,20 +57,11 @@ public class WordUnscramblerImpl extends WordUnscramblerPOA {
 
             //replaces the player line with playerXmysteryWord
             for (String c : clientsList) {
-
-                if (c.contains("&&")) {
-                    String[] details = c.split("&&");
-                    if (details[0].equals(player)) {
-                        clientsList.remove(c);
-                        clientsList.add(playerXmysteryWord);
-                        break;
-                    }
-                } else {
-                    if (c.equals(player)) {
-                        clientsList.remove(c);
-                        clientsList.add(playerXmysteryWord);
-                        break;
-                    }
+                String[] details = c.split("&&");
+                if (details[0].equals(player)) {
+                    clientsList.remove(c);
+                    clientsList.add(playerXmysteryWord);
+                    break;
                 }
             }
             clientsReader.close();
@@ -86,14 +77,15 @@ public class WordUnscramblerImpl extends WordUnscramblerPOA {
                     while (clientsReader.readLine() != null) {
                         clientsReader.readLine();
                     }
-                    clientsWriter.write(c);
-                    clientsWriter.close();
+                    clientsWriter.write(c + "\n");
                 }
             }
+            clientsWriter.close();
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+
 
         //return the shuffled mystery word
         return shuffleLetters(player, mysteryWord);
@@ -109,12 +101,10 @@ public class WordUnscramblerImpl extends WordUnscramblerPOA {
             //obtains the mysteryWord of the player
             String line = clientsReader.readLine();
             while (line != null) {
-                if(line.contains("&&")) {
-                    String[] details = line.split("&&");
-                    if (player.equals(details[0])) {
-                        mysteryWord = details[1];
-                        break;
-                    }
+                String[] details = line.split("&&");
+                if (player.equals(details[0])) {
+                    mysteryWord = details[1];
+                    break;
                 }
                 line = clientsReader.readLine();
             }
@@ -153,6 +143,8 @@ public class WordUnscramblerImpl extends WordUnscramblerPOA {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        if(guessWord.equals(""))
+            return false;
 
         return guessWord.equals(mysteryWord);
     }
@@ -222,16 +214,15 @@ public class WordUnscramblerImpl extends WordUnscramblerPOA {
                     while (clientsReader.readLine() != null) {
                         clientsReader.readLine();
                     }
-                    clientsWriter.write(c);
-                    clientsWriter.close();
-                    return true;
+                    clientsWriter.write(c + "\n");
                 }
             }
+            clientsWriter.close();
+            return true;
         } catch (Exception e){
             e.printStackTrace();
             return false;
         }
-        return true;
     }
 
     public void deleteAndCreateFile(){
@@ -254,5 +245,24 @@ public class WordUnscramblerImpl extends WordUnscramblerPOA {
         } catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    public String answer(String player){
+        //find the player and return the answer
+        try {
+            BufferedReader clientsReader = new BufferedReader(new FileReader(FileRecord.CONNECTED_CLIENTS.getFilepath()));
+
+            String line = clientsReader.readLine();
+            while(line != null){
+                String[] details = line.split("&&");
+                if (player.equals(details[0])) {
+                    return details[1];
+                }
+                line = clientsReader.readLine();
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return "Cannot find the answer.";
     }
 }
