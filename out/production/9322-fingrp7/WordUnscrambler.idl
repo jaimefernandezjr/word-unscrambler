@@ -1,0 +1,10 @@
+module WordUnscramblerApp{
+    interface WordUnscrambler {
+        void registerPlayer(in string player);
+        boolean checkIfActive(in string player);
+        string getRandWord();
+        string shuffleLetters(in string mysteryWord);
+        boolean checkAnswer(in string guessWord);
+        string requestShuffle(in string w);
+    };
+};
