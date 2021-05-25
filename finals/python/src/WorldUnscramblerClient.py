@@ -53,5 +53,26 @@ else:
         SystemExit
         pass
     pass
+while True:
+    shuffledMysteryWord = wordUnscrambler.getShuffledMysteryWord(player)
+    print("----------------------------")
+    print("Word Unscrambling Game")
+    print("----------------------------")
 
+    print("\nLives: ")
+    print("Scrambled Word: " + shuffledMysteryWord)
+    print("\nMAIN SELECTION:"
+          "\n1 - Answer"
+          "\n2 - Shuffle"
+          "\n3 - Main Menu")
 
+    choice = input("\nCHOICE: ")
+
+    if choice == 1:
+        print("answer")
+    elif choice == 2:
+        scrambledWord = wordUnscrambler.shuffleLetters(player, shuffledMysteryWord)
+    elif choice == 3:
+        print("answer")
+    else:
+        print("invalid choice")
