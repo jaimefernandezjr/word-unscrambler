@@ -50,7 +50,7 @@ while True:
     print("Word Unscrambling Game")
     print("----------------------")
 
-    print("\nLives: " + lives)
+    print("\nLives: " + str(lives))
     print("Scrambled Word: " + shuffledMysteryWord)
     print("\nMAIN SELECTION:"
           "\n1 - Answer"
@@ -64,7 +64,24 @@ while True:
         if wordUnscrambler.checkAnswer(player, ans):
             print("Your answer is correct!")
             print("YOU WIN!")
-            break
+            while True:
+                print("\nDo you want to play again?"
+                      "\n1 - Yes"
+                      "\n2 - No")
+                decision = input("\nCHOICE: ")
+                if decision == 1:
+                    shuffledMysteryWord = wordUnscrambler.getShuffledMysteryWord(player)
+                    break
+                elif decision == 2:
+                    isRemovePlayer = wordUnscrambler.removePlayer(player)
+                    if isRemovePlayer:
+                        print("The Player is removed from the game.")
+                        sys.exit()
+                    else:
+                        print("The Player unsuccessfully removed from the game.")
+                else:
+                    print("Invalid Choice")
+                    continue
         else:
             print("Your answer is incorrect")
             lives = lives - 1
@@ -82,15 +99,16 @@ while True:
             continue
         elif option == 2:
             shuffledMysteryWord = wordUnscrambler.getShuffledMysteryWord(player)
+            lives = 5
             continue
         elif option == 3:
-            isRemovePlayer = wordUnscrambler.removedPlayer(player)
+            isRemovePlayer = wordUnscrambler.removePlayer(player)
             if isRemovePlayer:
                 print("The Player is removed from the game.")
-                break
+                sys.exit()
             else:
                 print("The Player unsuccessfully removed from the game.")
         else:
             print("Invalid Choice")
     else:
-        print("invalid choice")
+        print("Invalid choice")
