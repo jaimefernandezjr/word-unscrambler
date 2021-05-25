@@ -38,24 +38,37 @@ else:
     else:
         print("This name is already taken. Please enter another name.")
 
-shuffledMysteryWord = wordUnscrambler.getShuffledMysteryWord(playerName)
+shuffledMysteryWord = wordUnscrambler.getShuffledMysteryWord(player)
+lives = 5
 while True:
-    print("----------------------------")
-    print("Word Unscrambling Game")
-    print("----------------------------")
+    if lives == 0:
+        print("The answer is " + wordUnscrambler.answer(player))
+        print("YOU LOSE!")
+        break
 
-    print("\nLives: ")
+    print("----------------------")
+    print("Word Unscrambling Game")
+    print("----------------------")
+
+    print("\nLives: " + lives)
     print("Scrambled Word: " + shuffledMysteryWord)
     print("\nMAIN SELECTION:"
           "\n1 - Answer"
           "\n2 - Shuffle"
           "\n3 - Main Menu")
 
-    choice = raw_input("\nCHOICE: ")
+    choice = input("\nCHOICE: ")
 
     if choice == 1:
-        ans = raw_input("Answer: ");
-        wordUnscrambler.checkAnswer(playerName, ans)
+        ans = raw_input("Answer: ")
+        if wordUnscrambler.checkAnswer(player, ans):
+            print("Your answer is correct!")
+            print("YOU WIN!")
+            break
+        else:
+            print("Your answer is incorrect")
+            lives = lives - 1
+            continue
     elif choice == 2:
         shuffledMysteryWord = wordUnscrambler.shuffleLetters(player, shuffledMysteryWord)
     elif choice == 3:
@@ -63,7 +76,7 @@ while True:
               "\n2 - Restart"
               "\n3 - Quit")
 
-        option = raw_input("\nCHOICE: ")
+        option = input("\nCHOICE: ")
 
         if option == 1:
             continue
