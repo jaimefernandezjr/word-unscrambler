@@ -53,8 +53,9 @@ else:
         SystemExit
         pass
     pass
-while True:
+
     shuffledMysteryWord = wordUnscrambler.getShuffledMysteryWord(player)
+while True:
     print("----------------------------")
     print("Word Unscrambling Game")
     print("----------------------------")
@@ -74,28 +75,24 @@ while True:
         shuffledMysteryWord = wordUnscrambler.shuffleLetters(player, shuffledMysteryWord)
     elif choice == 3:
         print("\n1 - Resume"
-              "\n 2 - Restart"
-              "\n 3 - Quit")
+              "\n2 - Restart"
+              "\n3 - Quit")
 
         option = input("\nCHOICE: ")
 
         if option == 1:
-            break
+            continue
         elif option == 2:
             shuffledMysteryWord = wordUnscrambler.getShuffledMysteryWord(player)
-            break
+            continue
         elif option == 3:
             isRemovePlayer = wordUnscrambler.removedPlayer(player)
-            if isRemovePlayer == True:
+            if isRemovePlayer:
                 print("The Player is removed from the game.")
+                SystemExit
             else:
                 print("The Player unsuccessfully removed from the game.")
         else:
             print("Invalid Choice")
-
-
     else:
         print("invalid choice")
-
-
-
