@@ -29,20 +29,29 @@ print("----------------------------")
 print("Welcome to Word Unscrambler!")
 print("----------------------------\n")
 
-print("1 - Login\n"
-      "2 - Register\n")
+player = ""
 
-choice = input("Choice: ")
+def checkIfNameIsValid(name):
+    if name == "":
+        return "Username cannot be null"
+    else:
+        return "Okay"
 
-if choice == 1:
-    print("login")
-elif choice == 2:
-    userToBeRegistered = input("Player username to be registered: ")
-    if wordUnscrambler.registerPlayer(userToBeRegistered) == true:
-         print(userToBeRegistered + " has been registered")
+
+playerName = input("Player name: ")
+
+errorDiagnosis = checkIfNameIsValid(playerName)
+
+if errorDiagnosis != "Okay":
+    print(errorDiagnosis)
 else:
-    print ("invalid")
-
-
+    isRegistered = wordUnscrambler.registerPlayer(playerName)
+    if isRegistered == True:
+        player = playerName
+    else:
+        print("This name is already taken. Please enter another name.")
+        SystemExit
+        pass
+    pass
 
 
