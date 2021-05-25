@@ -17,7 +17,7 @@ try:
     obj = rootContext.resolve(name)
 except CosNaming.NamingContext.NotFound as ex:
     print ("Name not found")
-sys.exit(1)
+    sys.exit(1)
 
 wordUnscrambler = obj._narrow(WordUnscramblerApp.WordUnscrambler)
 
@@ -29,18 +29,16 @@ print("----------------------------")
 print("Welcome to Word Unscrambler!")
 print("----------------------------\n")
 
-playerName = input("Player name: ")
+playerName = raw_input("Player Name: ");
 if playerName == "":
     print("Player name cannot be null")
 else:
-    isRegistered = wordUnscrambler.registerPlayer(playerName)
-    if isRegistered == True:
+    if wordUnscrambler.registerPlayer(playerName):
         player = playerName
     else:
         print("This name is already taken. Please enter another name.")
-        SystemExit
 
-shuffledMysteryWord = wordUnscrambler.getShuffledMysteryWord(player)
+shuffledMysteryWord = wordUnscrambler.getShuffledMysteryWord(playerName)
 while True:
     print("----------------------------")
     print("Word Unscrambling Game")
@@ -53,10 +51,11 @@ while True:
           "\n2 - Shuffle"
           "\n3 - Main Menu")
 
-    choice = input("\nCHOICE: ")
+    choice = raw_input("\nCHOICE: ")
 
     if choice == 1:
-        print("answer")
+        ans = raw_input("Answer: ");
+        wordUnscrambler.checkAnswer(playerName, ans)
     elif choice == 2:
         shuffledMysteryWord = wordUnscrambler.shuffleLetters(player, shuffledMysteryWord)
     elif choice == 3:
@@ -64,7 +63,7 @@ while True:
               "\n2 - Restart"
               "\n3 - Quit")
 
-        option = input("\nCHOICE: ")
+        option = raw_input("\nCHOICE: ")
 
         if option == 1:
             continue
@@ -75,7 +74,7 @@ while True:
             isRemovePlayer = wordUnscrambler.removedPlayer(player)
             if isRemovePlayer:
                 print("The Player is removed from the game.")
-                SystemExit
+                break
             else:
                 print("The Player unsuccessfully removed from the game.")
         else:
