@@ -1,5 +1,5 @@
 import CORBA
-import WordUnscrambler
+import WordUnscramblerApp
 import CosNaming
 import sys
 
@@ -12,7 +12,7 @@ if rootContext is None:
     print ("Failed to narrow the root naming context")
     sys.exit(1)
 
-name = [CosNaming.NameComponent("WordUnscrambler", ""), ]
+name = [CosNaming.NameComponent("group", ""), ]
 try:
     obj = rootContext.resolve(name)
 except CosNaming.NamingContext.NotFound as ex:
@@ -29,21 +29,9 @@ print("----------------------------")
 print("Welcome to Word Unscrambler!")
 print("----------------------------\n")
 
-player = ""
-
-def checkIfNameIsValid(name):
-    if name == "":
-        return "Username cannot be null"
-    else:
-        return "Okay"
-
-
 playerName = input("Player name: ")
-
-errorDiagnosis = checkIfNameIsValid(playerName)
-
-if errorDiagnosis != "Okay":
-    print(errorDiagnosis)
+if playerName == "":
+    print("Player name cannot be null")
 else:
     isRegistered = wordUnscrambler.registerPlayer(playerName)
     if isRegistered == True:
@@ -51,10 +39,8 @@ else:
     else:
         print("This name is already taken. Please enter another name.")
         SystemExit
-        pass
-    pass
 
-    shuffledMysteryWord = wordUnscrambler.getShuffledMysteryWord(player)
+shuffledMysteryWord = wordUnscrambler.getShuffledMysteryWord(player)
 while True:
     print("----------------------------")
     print("Word Unscrambling Game")
