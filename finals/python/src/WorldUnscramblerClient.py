@@ -37,7 +37,9 @@ choice = input("Choice: ")
 if choice == 1:
     print("login")
 elif choice == 2:
-    print ("register")
+    userToBeRegistered = input("Player username to be registered: ")
+    if wordUnscrambler.registerPlayer(userToBeRegistered) == true:
+         print(userToBeRegistered + " has been registered")
 else:
     print ("invalid")
 
