@@ -46,6 +46,7 @@ WordUnscrambler._d_getShuffledMysteryWord = (((omniORB.tcInternal.tv_string,0), 
 WordUnscrambler._d_shuffleLetters = (((omniORB.tcInternal.tv_string,0), (omniORB.tcInternal.tv_string,0)), ((omniORB.tcInternal.tv_string,0), ), None)
 WordUnscrambler._d_checkAnswer = (((omniORB.tcInternal.tv_string,0), (omniORB.tcInternal.tv_string,0)), (omniORB.tcInternal.tv_boolean, ), None)
 WordUnscrambler._d_removePlayer = (((omniORB.tcInternal.tv_string,0), ), (omniORB.tcInternal.tv_boolean, ), None)
+WordUnscrambler._d_answer = (((omniORB.tcInternal.tv_string,0), ), ((omniORB.tcInternal.tv_string,0), ), None)
 
 # WordUnscrambler object reference
 class _objref_WordUnscrambler (CORBA.Object):
@@ -69,6 +70,9 @@ class _objref_WordUnscrambler (CORBA.Object):
     def removePlayer(self, *args):
         return self._obj.invoke("removePlayer", _0_WordUnscramblerApp.WordUnscrambler._d_removePlayer, args)
 
+    def answer(self, *args):
+        return self._obj.invoke("answer", _0_WordUnscramblerApp.WordUnscrambler._d_answer, args)
+
 omniORB.registerObjref(WordUnscrambler._NP_RepositoryId, _objref_WordUnscrambler)
 _0_WordUnscramblerApp._objref_WordUnscrambler = _objref_WordUnscrambler
 del WordUnscrambler, _objref_WordUnscrambler
@@ -79,7 +83,7 @@ class WordUnscrambler (PortableServer.Servant):
     _NP_RepositoryId = _0_WordUnscramblerApp.WordUnscrambler._NP_RepositoryId
 
 
-    _omni_op_d = {"registerPlayer": _0_WordUnscramblerApp.WordUnscrambler._d_registerPlayer, "getShuffledMysteryWord": _0_WordUnscramblerApp.WordUnscrambler._d_getShuffledMysteryWord, "shuffleLetters": _0_WordUnscramblerApp.WordUnscrambler._d_shuffleLetters, "checkAnswer": _0_WordUnscramblerApp.WordUnscrambler._d_checkAnswer, "removePlayer": _0_WordUnscramblerApp.WordUnscrambler._d_removePlayer}
+    _omni_op_d = {"registerPlayer": _0_WordUnscramblerApp.WordUnscrambler._d_registerPlayer, "getShuffledMysteryWord": _0_WordUnscramblerApp.WordUnscrambler._d_getShuffledMysteryWord, "shuffleLetters": _0_WordUnscramblerApp.WordUnscrambler._d_shuffleLetters, "checkAnswer": _0_WordUnscramblerApp.WordUnscrambler._d_checkAnswer, "removePlayer": _0_WordUnscramblerApp.WordUnscrambler._d_removePlayer, "answer": _0_WordUnscramblerApp.WordUnscrambler._d_answer}
 
 WordUnscrambler._omni_skeleton = WordUnscrambler
 _0_WordUnscramblerApp__POA.WordUnscrambler = WordUnscrambler

@@ -71,8 +71,31 @@ while True:
     if choice == 1:
         print("answer")
     elif choice == 2:
-        scrambledWord = wordUnscrambler.shuffleLetters(player, shuffledMysteryWord)
+        shuffledMysteryWord = wordUnscrambler.shuffleLetters(player, shuffledMysteryWord)
     elif choice == 3:
-        print("answer")
+        print("\n1 - Resume"
+              "\n 2 - Restart"
+              "\n 3 - Quit")
+
+        option = input("\nCHOICE: ")
+
+        if option == 1:
+            break
+        elif option == 2:
+            shuffledMysteryWord = wordUnscrambler.getShuffledMysteryWord(player)
+            break
+        elif option == 3:
+            isRemovePlayer = wordUnscrambler.removedPlayer(player)
+            if isRemovePlayer == True:
+                print("The Player is removed from the game.")
+            else:
+                print("The Player unsuccessfully removed from the game.")
+        else:
+            print("Invalid Choice")
+
+
     else:
         print("invalid choice")
+
+
+
