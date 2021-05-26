@@ -24,8 +24,8 @@ _0_WordUnscramblerApp__POA = omniORB.openModule("WordUnscramblerApp__POA", r"Wor
 
 
 # interface WordUnscrambler
-_0_WordUnscramblerApp._d_WordUnscrambler = (omniORB.tcInternal.tv_objref, "IDL:WordUnscramblerApp/WordUnscrambler:1.0", "WordUnscrambler")
-omniORB.typeMapping["IDL:WordUnscramblerApp/WordUnscrambler:1.0"] = _0_WordUnscramblerApp._d_WordUnscrambler
+_0_WordUnscramblerApp._d_WordUnscrambler = (omniORB.tcInternal.tv_objref, "CORBA IDL:WordUnscramblerApp/WordUnscrambler:1.0", "WordUnscrambler")
+omniORB.typeMapping["CORBA IDL:WordUnscramblerApp/WordUnscrambler:1.0"] = _0_WordUnscramblerApp._d_WordUnscrambler
 _0_WordUnscramblerApp.WordUnscrambler = omniORB.newEmptyClass()
 class WordUnscrambler :
     _NP_RepositoryId = _0_WordUnscramblerApp._d_WordUnscrambler[1]
