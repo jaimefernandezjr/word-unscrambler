@@ -336,7 +336,6 @@ public class WordUnscramblerClient {
         });
 
         quitBtn.addActionListener(e -> {
-            //TODO: remove the player from the connected_clients.txt
             boolean isRemovePlayer = wordUnscrambler.removePlayer(name);
             if(isRemovePlayer)
                 System.out.println("The player is removed from the game.");

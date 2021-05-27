@@ -34,7 +34,7 @@ public class WordUnscramblerImpl extends WordUnscramblerPOA {
         return false;
     }
 
-    //get a random word from the words.txt
+
     public String getShuffledMysteryWord(String player) {
 
         String mysteryWord = generateMysteryWord();
@@ -118,7 +118,7 @@ public class WordUnscramblerImpl extends WordUnscramblerPOA {
                     shuffledWord = shuffledWord.concat(letter);
                 }
             } while (shuffledWord.equals(guessWord) || shuffledWord.equals(mysteryWord));
-            //^ ensure that the shuffled letters to be return is not the actual answer nor the guessWord
+            //^ ensures that the shuffled letters to be return is not the actual answer nor the guessWord
 
         } catch (Exception e) {
             e.printStackTrace();
